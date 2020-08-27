@@ -20,6 +20,6 @@ Parameters for generating 2D colormap:
 3) Downsample factor of color (d_value): 16 (Default)
 4) Output directory (output_dir): '' (Default)
 
-'''bash
+```bash
 python customize_colormap.py --xy_dim 512 --bright_value 0.8 --d_value 16 --output_dir '/nfs/masi/.....'
-'''
+```
