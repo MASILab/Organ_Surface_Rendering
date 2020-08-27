@@ -58,3 +58,7 @@ python binary_checkerboard_generate.py --input_dir '/nfs/masi/...' --cb_dir '/nf
 
 The vtk file can be visualized in Paraview as the below screenshot:
 ![kidney_atlas_result_surface](https://user-images.githubusercontent.com/54121206/91504224-1eeded80-e892-11ea-85cb-eab33fb6aabd.png)
+
+If there are any problems or need help for this github, feel free to contact me through email leeh43@vanderbilt.edu
+
+Peter Lee
