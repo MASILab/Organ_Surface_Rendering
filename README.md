@@ -55,3 +55,6 @@ Parameters to generate the vtk file:
 ```bash
 python binary_checkerboard_generate.py --input_dir '/nfs/masi/...' --cb_dir '/nfs/masi/...' --output_dir '/nfs/masi/...'
 ```
+
+The vtk file can be visualized in Paraview as the below screenshot:
+<img src="kidney_atlas_result_surface.png" alt="overlay";"/>
