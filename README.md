@@ -38,7 +38,7 @@ Both python files are called with the following arguments:
 
 ```bash
 python binary_checkerboard_generate.py --input_label '/nfs/masi/...' --grid_size 8 --view 1 --output_cb '/nfs/masi/.../checkerboard_binary.nii.gz'
-python binary_checkerboard_generate.py --input_label '/nfs/masi/...' --color_nums 512 --grid_size 8 --view 1 --output_cb '/nfs/masi/.../checkerboard_512.nii.gz'
+python 512_checkerboard_generate.py --input_label '/nfs/masi/...' --color_nums 512 --grid_size 8 --view 1 --output_cb '/nfs/masi/.../checkerboard_512.nii.gz'
 ```
 
 ### 3) Extract vertices information and generating surface as .vtk file
