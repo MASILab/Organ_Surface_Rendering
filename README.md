@@ -42,3 +42,16 @@ python binary_checkerboard_generate.py --input_label '/nfs/masi/...' --color_num
 ```
 
 ### 3) Extract vertices information and generating surface as .vtk file
+The checkerboard pattern contains voxel-wise information as nifti format in step 2. We then extract all vertices, faces and normals using marching cubes and use these informations to generate a vtk file for visualization. The python file convert_surface_vtk. efficienly overlay the checkerboard to the label and output as surface vtk file, which can be easily visualized by directly input into Paraview.
+
+If the surface rendering is not smoothed enough for visualization, there is a filter in Paraview called Smooth and you can apply a certain number of iterations to smooth the surface for better visualization of the checkerboard.
+
+Parameters to generate the vtk file:
+1) label directory (input_dir): '' (Default)
+2) Checkerboard directory (cb_dir): '' (Default)
+3) Vtk output directory (output_dir): '' (Default)
+
+
+```bash
+python binary_checkerboard_generate.py --input_dir '/nfs/masi/...' --cb_dir '/nfs/masi/...' --output_dir '/nfs/masi/...'
+```
