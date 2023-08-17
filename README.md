@@ -27,18 +27,17 @@ python customize_colormap.py --xy_dim 512 --bright_value 0.8 --d_value 16 --outp
 ```
 
 ### 2) Generate Checkerboard Pattern (Binary / Multi-value)
-Two python files are reponsible for generating binary and mutli-value checkerboard pattern as nifti format: binary_checkerboard_generate.py and 512_checkerboard_generate.py respectively. A 3D label image (For example: atlas target label/image) is used as an input for generating the checkerboard pattern with the same dimension as the input image.
+Two python files are reponsible for generating binary and mutli-value checkerboard pattern as nifti format: binary_checkerboard_generate.py and checkerboard_generate.py respectively. A 3D label image (For example: atlas target label/image) is used as an input for generating the checkerboard pattern with the same dimension as the input image.
 
 Both python files are called with the following arguments:
 1) 3D label image (input_label): '' (Default)
-2) Number range (For generating mutli-value checkerboard only) (color_nums): 512 (Default)
 3) Checkerboard grid size (grid_size): 8 (Default)
 4) Planar view of checkerboard (view): 1 (Default, 0: Axial, 1: Coronal, 2: Sagittal)
 5) Output file (output_cb): '' (Default)
 
 ```bash
 python binary_checkerboard_generate.py --input_label '/nfs/masi/...' --grid_size 8 --view 1 --output_cb '/nfs/masi/.../checkerboard_binary.nii.gz'
-python 512_checkerboard_generate.py --input_label '/nfs/masi/...' --color_nums 512 --grid_size 8 --view 1 --output_cb '/nfs/masi/.../checkerboard_512.nii.gz'
+python checkerboard_generate.py --input_label '/nfs/masi/...' --grid_size 8 --view 1 --output_cb '/nfs/masi/.../checkerboard_512.nii.gz'
 ```
 
 ### 3) Extract vertices information and generating surface as .vtk file

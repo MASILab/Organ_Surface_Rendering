@@ -3,6 +3,9 @@
 Created on Fri Aug 14 14:04:07 2020
 
 @author: peter
+
+Modified 8/16/2023 by Adam Saunders
+- Changed deprecated functions from nibabel and skimage
 """
 
 import os
@@ -31,15 +34,15 @@ def write_property(fn, v, f, prop):
         fp.write(f"{key} 1 {len_v} float\n")
         val = prop[key]
         for num in val:
-           fp.write(f"{num}\n") 
-    fp.close()
+            fp.write(f"{num}\n") 
+        fp.close()
     
 import argparse
 parser = argparse.ArgumentParser(description='Scripts pipeline of generating vtk file for surface rendering')
 # All working dirs
 parser.add_argument('--input_dir',  default='', 
                     help='root path of directory with organ ground truth label')
-   
+
 parser.add_argument('--cb_dir',  default='', 
                     help='root path of directory with atlas/deformed checkerboard')
 
@@ -57,12 +60,12 @@ for label in os.listdir(dir_path):
     checkerboard_pattern = os.path.join(opt.cb_dir, label)
     
     k_nib = nib.load(kidney_label)
-    k_np = k_nib.get_data()
+    k_np = k_nib.get_fdata()
     
     c_b = nib.load(checkerboard_pattern)
-    c_np = c_b.get_data()
+    c_np = c_b.get_fdata()
     
-    verts, faces, normals, values = measure.marching_cubes_lewiner(k_np, 0)
+    verts, faces, normals, values = measure.marching_cubes(k_np, 0, method='lewiner')
     
     import math 
     new_list = []

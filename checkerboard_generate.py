@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 """
-Created on Sun Jul 26 05:03:20 2020
+Created on Sat Aug 15 00:53:45 2020
 
 @author: peter
 
 Modified by Adam Saunders
 8/17/2023
-- Updated to match checkerboard_generate.py
+- Now creates a single checkerboard pattern with the number of colors determined by your grid size
+- Also added test option to show NIFTI
 """
 
 import os
@@ -44,9 +45,10 @@ seg_data = seg_nb.get_fdata()
 affine = seg_nb.affine
 header = seg_nb.header
 
-# Calculate number of blocks to use based on largest dimension
+# Calculate number of colors and blocks to use based on largest dimension
 max_dim = np.max((seg_data.shape))
-num_blocks = math.ceil(max_dim / opt.grid_size)
+num_colors = math.ceil(max_dim / (2*opt.grid_size))
+num_blocks = 2*num_colors
 
 # Define blank matrix and cells
 matrix = np.zeros((max_dim, max_dim))
@@ -60,7 +62,7 @@ for i in range(0, num_blocks):
         if (i + j) % 2 == 0:
             blocks[i][j] = 0
         else:
-            blocks[i][j] = 1
+            blocks[i][j] = i*num_blocks + j
 
 # Repeat for grid size to create pattern
 checkerboard_pattern = np.repeat(blocks, opt.grid_size, axis=1)
@@ -87,3 +89,6 @@ if opt.test:
     nib.viewers.OrthoSlicer3D(checkerboard, affine).show()
 
 nib.save(output, output_path)
+        
+        
+        
