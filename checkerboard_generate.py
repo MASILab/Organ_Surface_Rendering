@@ -8,6 +8,8 @@ Modified by Adam Saunders
 8/17/2023
 - Now creates a single checkerboard pattern with the number of colors determined by your grid size
 - Also added test option to show NIFTI
+8/29/2023
+- Added ability to control number of colors
 """
 
 import os
@@ -33,6 +35,9 @@ parser.add_argument('--view',  default='1',
 
 parser.add_argument('--output_cb',  default='', 
                     help='output path for checkerboard file in nifti format')
+
+parser.add_argument('--num_colors', default='32', 
+                    help='number of colors to use for checkerboard')
 
 parser.add_argument('--test', default=False,
                     help='shows NIFTI if True', type=bool)
@@ -62,7 +67,7 @@ for i in range(0, num_blocks):
         if (i + j) % 2 == 0:
             blocks[i][j] = 0
         else:
-            blocks[i][j] = i*num_blocks + j
+            blocks[i][j] = (i*num_blocks + j) % opt.num_colors
 
 # Repeat for grid size to create pattern
 checkerboard_pattern = np.repeat(blocks, opt.grid_size, axis=1)
