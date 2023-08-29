@@ -37,7 +37,7 @@ parser.add_argument('--output_cb',  default='',
                     help='output path for checkerboard file in nifti format')
 
 parser.add_argument('--num_colors', default='32', 
-                    help='number of colors to use for checkerboard')
+                    help='number of colors to use for checkerboard', type=int)
 
 parser.add_argument('--test', default=False,
                     help='shows NIFTI if True', type=bool)
