@@ -1,0 +1,45 @@
+#!/usr/bin/bash
+# Creates checkerboard surfaces for each atlas label
+atlasDir="/nfs/masi/saundam1/outputs/eye_atlas/atlas_labels/atlas"
+transformsDir="/nfs/masi/leeh43/PHOTON_all_nii/QAed_images_MRI/unbiased_25_T2FLAIR/reg_output_sres"
+
+for subject in {10730_20070517_MR_8,11156_20321114_MR_5,11298_19920723_MR_9,11441_19921123_MR_1,11447_20030427_MR_1}; do
+
+	echo "Applying transform to subject ${subject}"
+
+	labelDir="/nfs/masi/saundam1/outputs/eye_atlas/atlas_labels/${subject}"
+	cbDir="/nfs/masi/saundam1/outputs/eye_atlas/checkerboard_12/${subject}/checkerboard"
+	inputDir="/nfs/masi/saundam1/outputs/eye_atlas/checkerboard_12/${subject}/inputs"
+	outputDir="/nfs/masi/saundam1/outputs/eye_atlas/checkerboard_12/${subject}/outputs"
+
+	# Make folders if they don't exist
+	mkdir -p ${cbDir} ${outputDir} ${inputDir}
+
+	for label in {1,3,5,7}; do
+
+		# Make folder if it doesnt exist
+		mkdir -p ${cbDir}/${label} ${outputDir}/${label} ${inputDir}/${label}
+			
+		echo "Applying transformation to label ${label}"
+
+		# Apply transformations to label
+		antsApplyTransforms -d 3 -i ${labelDir}/${label}/${subject}_T2WFLAIR.nii.gz -r ${atlasDir}/${label}/atlasSeg_final.nii.gz -o ${inputDir}/${label}/${subject}_T2WFLAIR.nii.gz -n NearestNeighbor -t ${transformsDir}/MY${subject}*Warp.nii.gz -t ${transformsDir}/MY${subject}*GenericAffine.mat
+
+		echo "Making checkerboard for label ${label}"
+
+		# Generate checkerboard
+		python checkerboard_generate.py --input_label ${inputDir}/${label}/${subject}_T2WFLAIR.nii.gz --grid_size 4 --view 0 --output_cb ${cbDir}/${label}/checkerboard.nii.gz --num_colors 11
+
+		echo "Applying transformation to checkerboard for ${label}"
+
+		# Apply transformations to checkerboard
+		antsApplyTransforms -d 3 -i ${cbDir}/${label}/checkerboard.nii.gz -r ${atlasDir}/${label}/atlasSeg_final.nii.gz -o ${inputDir}/${label}/${subject}_T2WFLAIR.nii.gz -n NearestNeighbor -t ${transformsDir}/MY${subject}*Warp.nii.gz -t ${transformsDir}/MY${subject}*GenericAffine.mat
+
+		echo "Making surface for label ${label}"
+
+		# Create surface
+		python convert_surface_vtk.py --input_dir ${inputDir}/${label} --cb_dir ${cbDir}/${label} --output_dir ${outputDir}/${label}
+
+	done
+
+done

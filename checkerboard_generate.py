@@ -36,7 +36,7 @@ parser.add_argument('--view',  default='1',
 parser.add_argument('--output_cb',  default='', 
                     help='output path for checkerboard file in nifti format')
 
-parser.add_argument('--num_colors', default='31', 
+parser.add_argument('--num_colors', default='11', 
                     help='number of colors to use in addition to background for checkerboard', type=int)
 
 parser.add_argument('--test', default=False,
