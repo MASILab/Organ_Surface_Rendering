@@ -8,10 +8,10 @@ for subject in {10730_20070517_MR_8,11156_20321114_MR_5,11298_19920723_MR_9,1144
 	echo "Applying transform to subject ${subject}"
 
 	labelDir="/nfs/masi/saundam1/outputs/eye_atlas/atlas_labels/${subject}"
-	transformedLabelDir="/nfs/masi/saundam1/outputs/eye_atlas/checkerboard_12/${subject}/transformed_labels"
-	cbDir="/nfs/masi/saundam1/outputs/eye_atlas/checkerboard_12/${subject}/checkerboard"
-	inputDir="/nfs/masi/saundam1/outputs/eye_atlas/checkerboard_12/${subject}/inputs"
-	outputDir="/nfs/masi/saundam1/outputs/eye_atlas/checkerboard_12/${subject}/outputs"
+	transformedLabelDir="/nfs/masi/saundam1/outputs/eye_atlas/checkerboard_256/${subject}/transformed_labels"
+	cbDir="/nfs/masi/saundam1/outputs/eye_atlas/checkerboard_256/${subject}/checkerboard"
+	inputDir="/nfs/masi/saundam1/outputs/eye_atlas/checkerboard_256/${subject}/inputs"
+	outputDir="/nfs/masi/saundam1/outputs/eye_atlas/checkerboard_256/${subject}/outputs"
 
 	# Make folders if they don't exist
 	mkdir -p ${cbDir} ${outputDir} ${inputDir} ${transformedLabelDir}
@@ -29,7 +29,7 @@ for subject in {10730_20070517_MR_8,11156_20321114_MR_5,11298_19920723_MR_9,1144
 		echo "Making checkerboard for label ${label}"
 
 		# Generate checkerboard
-		python checkerboard_generate.py --input_label ${transformedLabelDir}/${label}/${subject}_T2WFLAIR.nii.gz --grid_size 4 --view 0 --output_cb ${cbDir}/${label}/${subject}_T2WFLAIR.nii.gz --num_colors 11
+		python checkerboard_generate.py --input_label ${transformedLabelDir}/${label}/${subject}_T2WFLAIR.nii.gz --grid_size 4 --view 0 --output_cb ${cbDir}/${label}/${subject}_T2WFLAIR.nii.gz --num_colors 255
 
 		echo "Applying transformation to checkerboard for ${label}"
 
