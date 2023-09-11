@@ -29,7 +29,7 @@ for subject in {10730_20070517_MR_8,11156_20321114_MR_5,11298_19920723_MR_9,1144
 		echo "Making checkerboard for label ${label}"
 
 		# Generate checkerboard
-		python checkerboard_generate.py --input_label ${transformedLabelDir}/${label}/${subject}_T2WFLAIR.nii.gz --grid_size 4 --view 0 --output_cb ${cbDir}/${label}/${subject}_T2WFLAIR.nii.gz --num_colors 255
+		python checkerboard_generate.py --input_label ${labelDir}/${label}/${subject}_T2WFLAIR.nii.gz --grid_size 4 --view 0 --output_cb ${cbDir}/${label}/${subject}_T2WFLAIR.nii.gz --num_colors 255
 
 		echo "Applying transformation to checkerboard for ${label}"
 
@@ -39,7 +39,7 @@ for subject in {10730_20070517_MR_8,11156_20321114_MR_5,11298_19920723_MR_9,1144
 		echo "Making surface for label ${label}"
 
 		# Create surface
-		python convert_surface_vtk.py --input_dir ${transformedLabelDir}/${label} --cb_dir ${cbDir}/${label} --output_dir ${outputDir}/${label}
+		python convert_surface_vtk.py --input_dir ${transformedLabelDir}/${label} --cb_dir ${inputDir}/${label} --output_dir ${outputDir}/${label}
 
 	done
 
