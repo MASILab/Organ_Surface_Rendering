@@ -36,8 +36,8 @@ parser.add_argument('--view',  default='1',
 parser.add_argument('--output_cb',  default='', 
                     help='output path for checkerboard file in nifti format')
 
-parser.add_argument('--num_colors', default='11', 
-                    help='number of colors to use in addition to background for checkerboard', type=int)
+parser.add_argument('--num_colors', default='12', 
+                    help='number of colors to use (including background) for checkerboard', type=int)
 
 parser.add_argument('--test', default=False,
                     help='shows NIFTI if True', type=bool)
@@ -50,10 +50,13 @@ seg_data = seg_nb.get_fdata()
 affine = seg_nb.affine
 header = seg_nb.header
 
-# Calculate number of colors and blocks to use based on largest dimension
+# Get foreground colors
+fg_colors = opt.num_colors - 1
+
+# Calculate number of blocks to use based on largest dimension
 max_dim = np.max((seg_data.shape))
-num_colors = math.ceil(max_dim / (2*opt.grid_size))
-num_blocks = 2*num_colors
+max_colors = math.ceil(max_dim / (2*opt.grid_size))
+num_blocks = 2*max_colors
 
 # Define blank matrix and cells
 matrix = np.zeros((max_dim, max_dim))
@@ -67,7 +70,7 @@ for i in range(0, num_blocks):
         if (i + j) % 2 == 0:
             blocks[i][j] = 0
         else:
-            blocks[i][j] = (i*num_blocks + j) % opt.num_colors + 1
+            blocks[i][j] = (i*num_blocks + j) % fg_colors + 1
 
 # Repeat for grid size to create pattern
 checkerboard_pattern = np.repeat(blocks, opt.grid_size, axis=1)

@@ -5,25 +5,25 @@ dataDir="/nfs/masi/leeh43/PHOTON_all_nii/QAed_images_MRI/unbiased_25_T2FLAIR"
 templateDir="${dataDir}/unbiased_template"
 transformsDir="${dataDir}/reg_output"
 #labelDir="${dataDir}/label_fix"
-workingDir="/nfs/masi/saundam1/outputs/eye_atlas/checkerboard_12/inv_deformation"
+workingDir="/nfs/masi/saundam1/outputs/eye_atlas/test/inv_deformation"
 cbDir="${workingDir}/checkerboard"
 inputDir="${workingDir}/inputs"
 outputDir="${workingDir}/outputs"
 
 mkdir -p $workingDir $cbDir $inputDir $outputDir
 
-for label in {1,3,5,7}; do
+for label in {1,3}; do
 
 	echo "Generating surface for label ${label}"
 	
 	mkdir -p ${cbDir}/${label} ${inputDir}/${label} ${outputDir}/${label}
 
-	for subject in {10730_20070517_MR_8,11156_20321114_MR_5,11298_19920723_MR_9,11441_19921123_MR_1,11447_20030427_MR_1}; do
+	for subject in {10730_20070517_MR_8,11447_20030427_MR_1}; do
 
 		# Generate checkerboard in atlas space
 		#$labelDir/$subject/all/${subject}_T2WFLAIR.nii.gz
 		#$labelDir/atlas/atlasSeg_final.nii.gz	
-		python checkerboard_generate.py --input_label $labelDir/atlas/atlasSeg_final.nii.gz	--grid_size 4 --view 0 --output_cb ${cbDir}/${label}/${subject}_T2WFLAIR.nii.gz --num_colors 11
+		python checkerboard_generate.py --input_label $labelDir/atlas/atlasSeg_final.nii.gz	--grid_size 4 --view 0 --output_cb ${cbDir}/${label}/${subject}_T2WFLAIR.nii.gz --num_colors 12
 
 		# Apply transformation from subject to atlas space
 		echo "Applying transformation from subject ${subject}"
@@ -42,6 +42,17 @@ for label in {1,3,5,7}; do
 		# Create surface
 		python convert_surface_vtk.py --input_dir ${labelDir}/$subject/${label} --cb_dir ${inputDir}/${label} --output_dir ${outputDir}/${label}/${subject}
 	done
-done
 
+	# Also generate atlas surface
+
+	echo "Generating atlas surface"
+
+	python checkerboard_generate.py --input_label $labelDir/atlas/$label/atlasSeg_final.nii.gz --grid_size 4 --view 0 --output_cb $cbDir/$label/atlasSeg_final.nii.gz --num_colors 12
+
+	cp $cbDir/$label/atlasSeg_final.nii.gz $inputDir/$label/atlasSeg_final.nii.gz
+
+	mkdir -p $outputDir/$label/atlas
+
+	python convert_surface_vtk.py --input_dir $labelDir/atlas/$label --cb_dir $inputDir/$label --output_dir $outputDir/$label/atlas
+done
 
