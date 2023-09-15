@@ -25,7 +25,7 @@ import argparse
 parser = argparse.ArgumentParser(description='Scripts pipeline of generating vtk file for surface rendering')
 # All working dirs
 parser.add_argument('--input_label',  default='', 
-                    help='Input atlas label for generating same dimension checkerboard')
+                    help='Input label for generating same dimension checkerboard')
 
 parser.add_argument('--grid_size',  default='8', 
                     help='Grid Size for checkerboard', type=int)
@@ -38,9 +38,6 @@ parser.add_argument('--output_cb',  default='',
 
 parser.add_argument('--num_colors', default='12', 
                     help='number of colors to use (including background) for checkerboard', type=int)
-
-parser.add_argument('--test', default=False,
-                    help='shows NIFTI if True', type=bool)
 
 opt = parser.parse_args()
 
@@ -91,10 +88,6 @@ elif opt.view == 2:
         
 output = nib.Nifti1Image(checkerboard, affine, header)
 output_path = os.path.join(opt.output_cb)
-
-# Show if needed
-if opt.test:
-    nib.viewers.OrthoSlicer3D(checkerboard, affine).show()
 
 nib.save(output, output_path)
         

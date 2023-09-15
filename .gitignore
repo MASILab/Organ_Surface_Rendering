@@ -123,6 +123,12 @@ celerybeat.pid
 .env
 .venv
 env/
+
+
+
+```bash
+
+```
 venv/
 ENV/
 env.bak/
@@ -161,3 +167,4 @@ cython_debug/
 
 .vscode/
 *.bak
+data/
